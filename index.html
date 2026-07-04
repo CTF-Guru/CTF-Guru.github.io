@@ -3,9 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Farooq Ali (CTF) — one-page visual explainers on security & AI, plus writing. If it’s worth knowing, it’s worth sharing.">
+<meta name="description" content="Farooq Ali (CTF) — one-page visual explainers on security & AI, plus writing.">
 <meta property="og:title" content="ctf.guru — Farooq Ali (CTF)">
-<meta property="og:description" content="One-page visual explainers on security & AI, plus writing.">
 <title>ctf.guru — Farooq Ali</title>
 <style>
   /* dark = default (first visit) */
@@ -23,6 +22,7 @@
     --shadow:rgba(20,20,20,.16); --thumbline:#dcdbd4;
   }
   *{ box-sizing:border-box }
+  html,body{ margin:0; padding:0; background:#0b0b0b }
   .wrap{ background:var(--bg); color:var(--ink); font-family:var(--font); min-height:100vh; padding:0 22px;
          transition:background .2s ease, color .2s ease }
   .inner{ max-width:960px; margin:0 auto; padding:58px 0 40px }
@@ -179,10 +179,13 @@
   // theme — dark by default on first visit, remembered thereafter
   (function(){
     var wrap=document.querySelector('.wrap');
+    function sync(){ document.body.style.background = wrap.classList.contains('light') ? '#f6f5f2' : '#0b0b0b'; }
     if(localStorage.getItem('ctf-theme')==='light') wrap.classList.add('light');
+    sync();
     document.getElementById('theme').addEventListener('click', function(){
       wrap.classList.toggle('light');
       localStorage.setItem('ctf-theme', wrap.classList.contains('light') ? 'light' : 'dark');
+      sync();
     });
   })();
 
