@@ -116,7 +116,18 @@
   footer .home{ color:var(--gold); text-decoration:none; font-weight:700 }
 
   @media (max-width:800px){ .collage{ display:none } }
-  @media (max-width:640px){ .libs{ grid-template-columns:1fr } .hero h1{ font-size:1.75rem } .hero .lede{ font-size:1.05rem } }
+  @media (max-width:640px){
+    .wrap{ padding:0 16px }
+    .inner{ padding:42px 0 34px }
+    .libs{ grid-template-columns:1fr }
+    .hero h1{ font-size:1.75rem }
+    .hero .lede{ font-size:1.05rem }
+    .hero-left{ gap:16px }
+    .shield{ width:60px; height:65px; flex-basis:60px }
+    .art{ flex-direction:column; align-items:flex-start; gap:4px }
+    .art .m{ white-space:normal }
+  }
+  @media (max-width:380px){ .hero h1{ font-size:1.55rem } .themebtn{ top:10px; right:10px } }
   @media (prefers-reduced-motion:reduce){ *{ transition:none !important } .shield{ animation:none } }
 </style>
 </head>
