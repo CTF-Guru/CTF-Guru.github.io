@@ -13,6 +13,7 @@
     --bg:#0b0b0b; --panel:#141414; --panel2:#0f0f10; --line:#262626; --hover:#17181a;
     --ink:#f5f5f5; --muted:#bdbdbd; --dim:#8c8c8c;
     --gold:#E9BF35; --blue:#5AA9EC; --teal:#3AD0B0; --orange:#FE9A3A; --green:#81BB42; --red:#FF5A4D; --purple:#9B5DE5;
+    --flash-hi:#fff3c4; --flash-peak:#ffffff;   /* the "Flash" sweep peaks bright on black */
     --shadow:rgba(0,0,0,.55); --thumbline:#2f2f2f;
     --font:'Century Gothic','Futura','Avenir Next',system-ui,sans-serif;
   }
@@ -20,6 +21,7 @@
     --bg:#f6f5f2; --panel:#ffffff; --panel2:#efeeea; --line:#e3e2dc; --hover:#f0efe9;
     --ink:#1a1a17; --muted:#57564f; --dim:#86857c;
     --gold:#b4890b; --blue:#2f7fc7; --teal:#128a70; --orange:#c96a00; --green:#5a8a1f; --red:#c8342a; --purple:#6b3fc0;
+    --flash-hi:#b4890b; --flash-peak:#7a4f05;   /* on a WHITE panel the sweep must peak DARK, or "Flash" vanishes */
     --shadow:rgba(20,20,20,.16); --thumbline:#dcdbd4;
   }
   *{ box-sizing:border-box }
@@ -85,6 +87,39 @@
 
   /* library cards */
   .libs{ display:grid; grid-template-columns:1fr 1fr; gap:16px }
+
+  /* News Flash strip — sits ABOVE the libraries because it is the thing that changes weekly, and
+     it is the reason to come back. The motion is deliberately the product's OWN: the bolt pulses on
+     the same 2.4s beat as Newsflash-icon.svg and "Flash" burns with the same sweep as the slide
+     masthead, so this reads as the same thing you land on at /newsflash/.
+     The fire is built from theme tokens, NOT hard-coded hexes: light mode's --panel is pure white,
+     so the dark sweep's #ffffff peak would make "Flash" invisible on it. --flash-hi/--flash-peak
+     flip with the theme and keep the sweep legible on both. */
+  .nfwrap{ margin-top:38px }
+  .nfbar{ display:flex; align-items:center; gap:16px; padding:15px 20px; border:1px solid var(--line);
+    border-radius:20px; background:var(--panel); box-shadow:0 10px 26px var(--shadow);
+    text-decoration:none; color:var(--ink); transition:border-color .18s, transform .18s }
+  .nfbar:hover{ border-color:var(--gold); transform:translateY(-2px) }
+  .nfico{ width:30px; height:30px; flex:none; color:var(--gold) }
+  .nfico svg{ width:100%; height:100%; transform-origin:50% 50%; animation:nf-pulse 2.4s ease-in-out infinite }
+  @keyframes nf-pulse{
+    0%,100%{ opacity:1;   transform:scale(1) }
+    50%    { opacity:.62; transform:scale(1.14) }
+  }
+  .nfmain{ display:flex; flex-direction:column; gap:1px; min-width:0 }
+  .nft{ font-weight:800; font-size:1.1rem; letter-spacing:.01em }
+  .nft .fl{ background:linear-gradient(100deg,var(--red) 0%,var(--orange) 24%,var(--flash-hi) 45%,
+      var(--flash-peak) 50%,var(--flash-hi) 55%,var(--orange) 76%,var(--red) 100%);
+    background-size:260% auto; -webkit-background-clip:text; background-clip:text; color:transparent;
+    animation:shine 2.1s linear infinite }
+  @keyframes shine{ 0%{ background-position:0% center } 100%{ background-position:260% center } }
+  .nfd{ color:var(--muted); font-size:.9rem }
+  .nfchip{ flex:none; color:var(--gold); border-color:var(--gold) }
+  .nfgo{ margin-left:auto; color:var(--gold); font-weight:800; white-space:nowrap; flex:none }
+  @media(max-width:720px){
+    .nfbar{ flex-wrap:wrap; gap:10px }
+    .nfgo{ margin-left:0; width:100% }
+  }
   .lib{ display:flex; flex-direction:column; gap:11px; text-decoration:none; color:inherit;
         background:var(--panel); border:1px solid var(--line); border-top:3px solid var(--ac);
         border-radius:12px; padding:18px 20px; transition:transform .15s ease, border-color .15s ease, background .15s ease }
@@ -136,7 +171,9 @@
     .art .m{ white-space:normal }
   }
   @media (max-width:380px){ .hero h1{ font-size:1.55rem } .themebtn{ top:10px; right:10px } .lnbtn{ top:10px; right:52px } }
-  @media (prefers-reduced-motion:reduce){ *{ transition:none !important } .shield{ animation:none } }
+  @media (prefers-reduced-motion:reduce){ *{ transition:none !important } .shield,.nfico svg,.nft .fl{ animation:none }
+    .nft .fl{ background:none; color:var(--orange) }   /* clipped-text needs a real colour once the sweep stops */
+  }
 </style>
 </head>
 <body>
@@ -166,6 +203,8 @@
     </div>
     <div class="collage" id="collage"></div>
   </div>
+
+  <div class="nfwrap" id="news"></div>
 
   <section class="sec">
     <div class="head"><span class="eyebrow">Explainer libraries</span><span class="note">pick a topic</span></div>
@@ -213,7 +252,10 @@
 
   const ICONS = {
     lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="9.5" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/><circle cx="12" cy="15" r="1.3"/></svg>',
-    chip: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="1.5"/><rect x="10.5" y="10.5" width="3" height="3" rx="0.5"/><path d="M10 3v2.5M14 3v2.5M10 18.5V21M14 18.5V21M3 10h2.5M3 14h2.5M18.5 10H21M18.5 14H21"/></svg>'
+    chip: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="1.5"/><rect x="10.5" y="10.5" width="3" height="3" rx="0.5"/><path d="M10 3v2.5M14 3v2.5M10 18.5V21M14 18.5V21M3 10h2.5M3 14h2.5M18.5 10H21M18.5 14H21"/></svg>',
+    // Same polygon as the canonical News Flash mark (newsflash-builder assets/Newsflash-icon.svg),
+    // so the card here and the product at ctf.guru/newsflash read as one thing.
+    bolt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'
   };
   const TOPICS = [
     { name:'Security', icon:'lock', chip:'51 explainers', ac:'var(--teal)', href:'/security/',
@@ -221,6 +263,12 @@
     { name:'AI', icon:'chip', chip:'25 explainers', ac:'var(--blue)', href:'/ai/',
       desc:'Model Context Protocol, agents, RAG, memory and the security around them — the building blocks of modern AI, one page each.' },
   ];
+
+  // The news flash is NOT an explainer library, so it gets its own section rather than a third
+  // card under that heading. Gold leads here because the card spans both topics and so can be
+  // neither teal (security) nor blue (AI) — and gold is the News Flash mark's own colour.
+  const NEWS = { name:'News Flash', icon:'bolt', chip:'weekly', href:'/newsflash/',
+    desc:'AI &amp; security &mdash; what actually moved in the last 30 days, with a primary source on every item.' };
 
   const MEDIUM_URL = 'https://medium.com/@GaMechanic';
   const WRITING = [
@@ -252,6 +300,15 @@
       + '<span class="d">'+t.desc+'</span>'
       + '<span class="go">Browse '+t.name.toLowerCase()+' &rarr;</span></a>';
   }).join('');
+
+  document.getElementById('news').innerHTML = (function(t){
+    return '<a class="nfbar" href="'+t.href+'">'
+      + '<span class="nfico">'+ICONS[t.icon]+'</span>'
+      + '<span class="nfmain"><span class="nft">News <span class="fl">Flash</span></span>'
+      + '<span class="nfd">'+t.desc+'</span></span>'
+      + '<span class="chip nfchip">'+t.chip+'</span>'
+      + '<span class="nfgo">Read the latest &rarr;</span></a>';
+  })(NEWS);
 
   document.getElementById('arts').innerHTML = WRITING.map(function(a){
     return '<a class="art" href="'+a.href+'" target="_blank" rel="noopener">'
