@@ -60,8 +60,13 @@
   .hero h1{ margin:5px 0 0; font-size:2.15rem; font-weight:800; letter-spacing:.01em; color:var(--gold); text-wrap:balance; line-height:1.05 }
   .hero h1 span{ color:var(--ink) }
   .hero .role{ margin:5px 0 0; color:var(--dim); font-size:.95rem; font-weight:600; letter-spacing:.02em }
-  .hero .lede{ margin:14px 0 0; color:var(--ink); font-size:1.15rem; max-width:40ch; line-height:1.4; font-weight:600 }
-  .hero .lede b{ color:var(--gold); font-weight:700 }
+  /* personal manifesto (the poem) — the featured hero statement */
+  .hero .manifesto{ margin:15px 0 0; color:var(--ink); font-size:1.1rem; line-height:1.5; max-width:46ch; font-weight:600 }
+  .hero .manifesto span{ display:block }
+  .hero .manifesto .brk{ color:var(--gold); font-weight:800 }
+  /* small closing tagline under the manifesto */
+  .hero .lede{ margin:13px 0 0; color:var(--dim); font-size:.92rem; max-width:40ch; line-height:1.4; font-weight:600; font-style:italic }
+  .hero .lede b{ color:var(--gold); font-weight:700; font-style:normal }
 
   /* collage — fanned mix of infographics + Medium articles */
   .collage{ flex:0 0 auto; display:flex; align-items:flex-start; padding:4px 6px 0 0 }
@@ -198,6 +203,12 @@
         <div class="eyebrow">ctf.guru</div>
         <h1>Farooq&nbsp;Ali <span>· CTF</span></h1>
         <p class="role">Chief Troublemaker &amp; Fixer</p>
+        <p class="manifesto">
+          <span>I am a builder and a breaker of limits.</span>
+          <span>I break what’s broken. I rebuild it better.</span>
+          <span>What I build lives between art and architecture.</span>
+          <span class="brk">I challenge you to break it.</span>
+        </p>
         <p class="lede">If it’s worth knowing, it’s worth <b>sharing</b>!</p>
       </div>
     </div>
