@@ -60,13 +60,24 @@
   .hero h1{ margin:5px 0 0; font-size:2.15rem; font-weight:800; letter-spacing:.01em; color:var(--gold); text-wrap:balance; line-height:1.05 }
   .hero h1 span{ color:var(--ink) }
   .hero .role{ margin:5px 0 0; color:var(--dim); font-size:.95rem; font-weight:600; letter-spacing:.02em }
-  /* personal manifesto (the poem) — the featured hero statement */
-  .hero .manifesto{ margin:15px 0 0; color:var(--ink); font-size:1.1rem; line-height:1.5; max-width:46ch; font-weight:600 }
+  /* personal manifesto (the poem) — featured, with a palette accent bar + colour-coded keywords */
+  .hero .manifesto{ position:relative; margin:16px 0 0; padding-left:18px; max-width:48ch;
+                    color:var(--ink); font-size:1.14rem; line-height:1.62; font-weight:600 }
+  .hero .manifesto::before{ content:""; position:absolute; left:0; top:5px; bottom:5px; width:4px; border-radius:4px;
+    background:linear-gradient(180deg,var(--red),var(--orange),var(--gold),var(--green),var(--teal),var(--blue),var(--purple)) }
   .hero .manifesto span{ display:block }
-  .hero .manifesto .brk{ color:var(--gold); font-weight:800 }
-  /* small closing tagline under the manifesto */
-  .hero .lede{ margin:13px 0 0; color:var(--dim); font-size:.92rem; max-width:40ch; line-height:1.4; font-weight:600; font-style:italic }
-  .hero .lede b{ color:var(--gold); font-weight:700; font-style:normal }
+  .hero .manifesto b{ font-weight:800 }
+  .hero .manifesto .c-grn{ color:var(--green) }
+  .hero .manifesto .c-red{ color:var(--red) }
+  .hero .manifesto .c-pur{ color:var(--purple) }
+  .hero .manifesto .c-blu{ color:var(--blue) }
+  .hero .manifesto .brk{ display:block; margin-top:3px; color:var(--gold); font-weight:800; font-size:1.22rem;
+                         letter-spacing:.01em; text-shadow:0 0 18px rgba(233,191,53,.28) }
+
+  /* standalone motto — sits OUTSIDE the hero box, above the News Flash strip */
+  .motto{ margin:30px 0 6px; text-align:center; color:var(--ink); font-size:1.2rem; font-weight:700;
+          font-style:italic; letter-spacing:.01em }
+  .motto b{ color:var(--gold); font-style:normal }
 
   /* collage — fanned mix of infographics + Medium articles */
   .collage{ flex:0 0 auto; display:flex; align-items:flex-start; padding:4px 6px 0 0 }
@@ -169,7 +180,9 @@
     .inner{ padding:42px 0 34px }
     .libs{ grid-template-columns:1fr }
     .hero h1{ font-size:1.75rem }
-    .hero .lede{ font-size:1.05rem }
+    .hero .manifesto{ font-size:1.05rem }
+    .hero .manifesto .brk{ font-size:1.12rem }
+    .motto{ font-size:1.06rem }
     .hero-left{ gap:16px }
     .shield{ width:60px; height:65px; flex-basis:60px }
     .art{ flex-direction:column; align-items:flex-start; gap:4px }
@@ -204,16 +217,17 @@
         <h1>Farooq&nbsp;Ali <span>· CTF</span></h1>
         <p class="role">Chief Troublemaker &amp; Fixer</p>
         <p class="manifesto">
-          <span>I am a builder and a breaker of limits.</span>
-          <span>I break what’s broken. I rebuild it better.</span>
-          <span>What I build lives between art and architecture.</span>
+          <span>I am a <b class="c-grn">builder</b> and a <b class="c-red">breaker</b> of limits.</span>
+          <span>I <b class="c-red">break</b> what’s broken. I <b class="c-grn">rebuild</b> it better.</span>
+          <span>What I build lives between <b class="c-pur">art</b> and <b class="c-blu">architecture</b>.</span>
           <span class="brk">I challenge you to break it.</span>
         </p>
-        <p class="lede">If it’s worth knowing, it’s worth <b>sharing</b>!</p>
       </div>
     </div>
     <div class="collage" id="collage"></div>
   </div>
+
+  <p class="motto">If it’s worth knowing, it’s worth <b>sharing</b>!</p>
 
   <div class="nfwrap" id="news"></div>
 
