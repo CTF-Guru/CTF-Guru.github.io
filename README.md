@@ -9,8 +9,8 @@ under it at `ctf.guru/<repo>/` (e.g. `ctf.guru/security`, `ctf.guru/ai`).
 - **`CNAME`** — `ctf.guru` (only this org-site repo carries it; project repos inherit the domain).
 - **`.nojekyll`** — serve files as-is.
 
-Independent of the infographics builder (`Gamechanic/infographics-builder`), which only produces the
-per-topic explainer bundles published to `ctf.guru/<topic>/`.
+The explainer libraries (`ctf.guru/ai`, `ctf.guru/security`) and the News Flash (`ctf.guru/newsflash`) are
+separate repos with their own builders; this repo is only the landing page.
 
 ## Deploy
 ```bash
